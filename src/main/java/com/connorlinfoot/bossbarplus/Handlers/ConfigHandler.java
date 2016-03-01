@@ -2,6 +2,7 @@ package com.connorlinfoot.bossbarplus.Handlers;
 
 import com.connorlinfoot.bossbarplus.BossBarAPI;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,12 +12,22 @@ import java.util.logging.Logger;
 public class ConfigHandler {
     private boolean smooth = false;
     private boolean joinEnabled = false;
+    private boolean soundEnabled = false;
     private double joinTime = 0;
     private BarColor defaultColor = BarColor.PURPLE;
     private BarStyle defaultStyle = BarStyle.SOLID;
+    private Sound defaultSound = Sound.ENTITY_ENDERDRAGON_GROWL;
 
     public void loadConfig(FileConfiguration config, Logger logger) {
         setSmooth(config.getBoolean("Smooth Animations"));
+        setSoundEnabled(config.getBoolean("Default Options.Enable Sound"));
+
+        try {
+            setDefaultSound(Sound.valueOf(config.getString("Default Options.Sound").toUpperCase()));
+        } catch (Exception e) {
+            logger.warning("Invalid \"Sound\", Defaulted to \"ENTITY_ENDERDRAGON_GROWL\"");
+            setDefaultSound(Sound.ENTITY_ENDERDRAGON_GROWL);
+        }
 
         try {
             setDefaultColor(BarColor.valueOf(config.getString("Default Options.Boss Bar Color").toUpperCase()));
@@ -57,44 +68,60 @@ public class ConfigHandler {
         }
     }
 
-    public void setSmooth(boolean smooth) {
-        this.smooth = smooth;
-    }
-
     public boolean isSmooth() {
         return smooth;
     }
 
-    public void setJoinEnabled(boolean joinEnabled) {
-        this.joinEnabled = joinEnabled;
+    public void setSmooth(boolean smooth) {
+        this.smooth = smooth;
     }
 
     public boolean isJoinEnabled() {
         return joinEnabled;
     }
 
-    public void setJoinTime(double joinTime) {
-        this.joinTime = joinTime;
+    public void setJoinEnabled(boolean joinEnabled) {
+        this.joinEnabled = joinEnabled;
     }
 
     public double getJoinTime() {
         return joinTime;
     }
 
-    public void setDefaultColor(BarColor defaultColor) {
-        this.defaultColor = defaultColor;
+    public void setJoinTime(double joinTime) {
+        this.joinTime = joinTime;
     }
 
     public BarColor getDefaultColor() {
         return defaultColor;
     }
 
-    public void setDefaultStyle(BarStyle defaultStyle) {
-        this.defaultStyle = defaultStyle;
+    public void setDefaultColor(BarColor defaultColor) {
+        this.defaultColor = defaultColor;
     }
 
     public BarStyle getDefaultStyle() {
         return defaultStyle;
+    }
+
+    public void setDefaultStyle(BarStyle defaultStyle) {
+        this.defaultStyle = defaultStyle;
+    }
+
+    public boolean isSoundEnabled() {
+        return soundEnabled;
+    }
+
+    public void setSoundEnabled(boolean soundEnabled) {
+        this.soundEnabled = soundEnabled;
+    }
+
+    public Sound getDefaultSound() {
+        return defaultSound;
+    }
+
+    public void setDefaultSound(Sound defaultSound) {
+        this.defaultSound = defaultSound;
     }
 
 }

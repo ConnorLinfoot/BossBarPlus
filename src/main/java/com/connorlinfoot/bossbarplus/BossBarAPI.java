@@ -1,7 +1,6 @@
 package com.connorlinfoot.bossbarplus;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -27,8 +26,10 @@ public class BossBarAPI {
             currentTime = seconds;
             perTime = 1 / seconds;
         }
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
+        if (BossBarPlus.getConfigHandler().isSoundEnabled()) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.playSound(player.getLocation(), BossBarPlus.getConfigHandler().getDefaultSound(), 1, 1);
+            }
         }
         final Runnable runnable = new Runnable() {
             @Override
