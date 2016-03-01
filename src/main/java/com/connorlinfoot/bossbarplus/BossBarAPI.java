@@ -14,7 +14,7 @@ public class BossBarAPI {
     private static BossBar joinBossBar = null;
     private static double currentTime = 0;
     private static int taskID = 0;
-    private static boolean perTick = BossBarPlus.isSmooth(); // If true it will run 20 times per second!
+    private static boolean perTick = BossBarPlus.getConfigHandler().isSmooth(); // If true it will run 20 times per second!
 
     public static void sendBarToAll(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
         Bukkit.getScheduler().cancelTask(taskID);
@@ -44,9 +44,9 @@ public class BossBarAPI {
 
         barCurrentlyRunning = true;
         if (perTick) {
-            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 1L).getTaskId();
+            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getBossBarPlus(), runnable, 0L, 1L).getTaskId();
         } else {
-            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 20L).getTaskId();
+            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getBossBarPlus(), runnable, 0L, 20L).getTaskId();
         }
     }
 

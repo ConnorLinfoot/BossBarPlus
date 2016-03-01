@@ -48,8 +48,8 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BarColor bossBarColor = BossBarPlus.getBarColor();
-                    BarStyle bossBarStyle = BossBarPlus.getBarStyle();
+                    BarColor bossBarColor = BossBarPlus.getConfigHandler().getDefaultColor();
+                    BarStyle bossBarStyle = BossBarPlus.getConfigHandler().getDefaultStyle();
                     String permission = "";
 
                     StringBuilder messageBuffer = new StringBuilder();
