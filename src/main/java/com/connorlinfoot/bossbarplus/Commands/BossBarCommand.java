@@ -23,7 +23,7 @@ public class BossBarCommand implements CommandExecutor {
         if (args.length >= 1) {
             switch (args[0].toLowerCase()) {
                 default:
-                    sender.sendMessage(ChatColor.RED + "Unknown argument");
+                    sender.sendMessage(ChatColor.RED + "Unknown argument, use /" + label + " help, for help");
                     break;
                 case "help":
                     sendHelp(sender, label);
@@ -102,6 +102,8 @@ public class BossBarCommand implements CommandExecutor {
                     break;
 
             }
+        } else {
+            sender.sendMessage(ChatColor.AQUA + "BossBarPlus v" + BossBarPlus.getBossBarPlus().getDescription().getVersion() + " - Created by Connor Linfoot");
         }
 
         return false;
