@@ -82,7 +82,8 @@ public class BossBarCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.GREEN + "Broadcast successful");
                     break;
                 case "clear":
-                    // TODO; Clear boss bar
+                    BossBarAPI.clearAllPlayers();
+                    sender.sendMessage(ChatColor.GREEN + "Cleared BossBar");
                     break;
 
             }
