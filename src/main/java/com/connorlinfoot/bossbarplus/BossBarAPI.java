@@ -14,13 +14,13 @@ public class BossBarAPI {
     private static int taskID = 0;
     private static boolean perTick = false; // If true it will run 20 times per second!
 
-    public static void sendMessageToAllPlayersRecurring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle) {
+    public static void sendMessageToAllPlayersRecurring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
         Bukkit.getScheduler().cancelTask(taskID);
 
         final double perTime;
-        if( perTick ) {
+        if (perTick) {
             currentTime = seconds * 20;
-            perTime = 1 / ( seconds * 20 );
+            perTime = 1 / (seconds * 20);
         } else {
             currentTime = seconds;
             perTime = 1 / seconds;
@@ -36,19 +36,19 @@ public class BossBarAPI {
                     Bukkit.getScheduler().cancelTask(taskID);
                     return;
                 }
-                sendMessageToAllPlayers(message, currentTime * perTime, barColor, barStyle);
+                sendMessageToAllPlayers(message, currentTime * perTime, barColor, barStyle, permission);
                 currentTime--;
             }
         };
 
-        if( perTick ) {
+        if (perTick) {
             taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 1L).getTaskId();
         } else {
             taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 20L).getTaskId();
         }
     }
 
-    public static void sendMessageToAllPlayers(String message, double progress, BarColor barColor, BarStyle barStyle) {
+    public static void sendMessageToAllPlayers(String message, double progress, BarColor barColor, BarStyle barStyle, String permission) {
         if (globalBossBar == null) {
             globalBossBar = Bukkit.createBossBar(message, barColor, barStyle);
         } else {
@@ -59,6 +59,8 @@ public class BossBarAPI {
 
         globalBossBar.removeAll();
         for (Player player : Bukkit.getOnlinePlayers()) {
+            if (permission != null && !permission.isEmpty() && player.hasPermission(permission))
+                continue;
             globalBossBar.addPlayer(player);
         }
         globalBossBar.setProgress(progress);
@@ -73,13 +75,13 @@ public class BossBarAPI {
     }
 
     public static void createJoinBossBar(String message, double time, BarColor barColor, BarStyle barStyle) {
-        if( globalJoinBossBar == null ) {
+        if (globalJoinBossBar == null) {
             globalJoinBossBar = Bukkit.createBossBar(message, barColor, barStyle);
         }
 
-        if( Bukkit.getOnlinePlayers().size() > 0 && time <= 0 ) {
+        if (Bukkit.getOnlinePlayers().size() > 0 && time <= 0) {
             // In case the plugin was reloaded and we should always show the bar
-            for( Player player : Bukkit.getOnlinePlayers() ) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
                 globalJoinBossBar.addPlayer(player);
             }
         }

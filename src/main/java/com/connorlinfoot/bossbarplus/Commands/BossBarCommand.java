@@ -50,6 +50,7 @@ public class BossBarCommand implements CommandExecutor {
 
                     BarColor bossBarColor = BossBarPlus.getBarColor();
                     BarStyle bossBarStyle = BossBarPlus.getBarStyle();
+                    String permission = "";
 
                     StringBuilder messageBuffer = new StringBuilder();
                     for (int i = start; i < args.length; i++) {
@@ -69,11 +70,17 @@ public class BossBarCommand implements CommandExecutor {
                                 return false;
                             }
                             continue;
+                        } else if (permission == null) {
+                            permission = args[i];
+                            continue;
                         } else if (args[i].toLowerCase().equals("-c")) {
                             bossBarColor = null;
                             continue;
                         } else if (args[i].toLowerCase().equals("-s")) {
                             bossBarStyle = null;
+                            continue;
+                        } else if (args[i].toLowerCase().equals("-p")) {
+                            permission = null;
                             continue;
                         }
                         messageBuffer.append(' ').append(args[i]);
@@ -85,7 +92,7 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BossBarAPI.sendMessageToAllPlayersRecurring(message, time, bossBarColor, bossBarStyle);
+                    BossBarAPI.sendMessageToAllPlayersRecurring(message, time, bossBarColor, bossBarStyle, permission);
 
                     sender.sendMessage(ChatColor.GREEN + "Broadcast has been sent successfully");
                     break;
