@@ -1,0 +1,11 @@
+name: BossBarPlus
+description: Boss Bar broadcaster for the new 1.9 boss bar API.
+main: com.connorlinfoot.bossbarplus.BossBarPlus
+version: ${project.version}
+commands:
+  bbp:
+    description: Main CratesPlus command
+    aliases: [bossbarplus,bossbar,bb,bar]
+permissions:
+  bossbarplus.admin:
+    default: op
