@@ -26,8 +26,7 @@ public class BossBarCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "Unknown argument");
                     break;
                 case "help":
-                    // TODO; Do help
-                    sender.sendMessage(ChatColor.YELLOW + "TODO");
+                    sendHelp(sender, label);
                     break;
                 case "broadcast":
                 case "bc":
@@ -99,6 +98,12 @@ public class BossBarCommand implements CommandExecutor {
         }
 
         return false;
+    }
+
+    private void sendHelp(CommandSender sender, String label){
+        sender.sendMessage(ChatColor.YELLOW + "---------- " + ChatColor.AQUA + ChatColor.BOLD + "BossBarPlus" + ChatColor.YELLOW + " ----------");
+        sender.sendMessage(ChatColor.YELLOW + "/" + label + " broadcast <time> <args> <message>" + ChatColor.AQUA + " - Broadcast a message to all players with the boss bar");
+        sender.sendMessage(ChatColor.YELLOW + "/" + label + " clear" + ChatColor.AQUA + " - Clear boss bar (if there is one)");
     }
 
 }
