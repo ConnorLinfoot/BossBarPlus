@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 public class BossBarAPI {
     private static BossBar globalBossBar = null;
+    private static BossBar globalJoinBossBar = null;
     private static double currentTime = 0;
     private static int taskID = 0;
     private static boolean perTick = false; // If true it will run 20 times per second!
@@ -69,6 +70,24 @@ public class BossBarAPI {
         globalBossBar.hide();
         globalBossBar.removeAll();
         globalBossBar.setTitle("");
+    }
+
+    public static void createJoinBossBar(String message, double time, BarColor barColor, BarStyle barStyle) {
+        if( globalJoinBossBar == null ) {
+            globalJoinBossBar = Bukkit.createBossBar(message, barColor, barStyle);
+        }
+
+        if( Bukkit.getOnlinePlayers().size() > 0 && time <= 0 ) {
+            // In case the plugin was reloaded and we should always show the bar
+            for( Player player : Bukkit.getOnlinePlayers() ) {
+                globalJoinBossBar.addPlayer(player);
+            }
+        }
+        globalJoinBossBar.show();
+    }
+
+    public static BossBar getGlobalJoinBossBar() {
+        return globalJoinBossBar;
     }
 
 }

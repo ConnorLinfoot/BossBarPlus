@@ -5,3 +5,10 @@ Metrics: true
 Default Options:
   Boss Bar Color: PURPLE
   Boss Bar Style: SOLID
+
+Broadcast on Join:
+  Enabled: false
+  Message: "&bWelcome to My Server!"
+  Color: BLUE
+  Style: SOLID
+  Time: 10 # Time of 0 will result in the broadcast showing forever!
