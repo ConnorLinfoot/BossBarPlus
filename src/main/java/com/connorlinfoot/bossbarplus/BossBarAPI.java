@@ -9,29 +9,42 @@ import org.bukkit.entity.Player;
 
 public class BossBarAPI {
     private static BossBar globalBossBar = null;
-    private static double currentSecond = 0;
+    private static double currentTime = 0;
     private static int taskID = 0;
+    private static boolean perTick = false; // If true it will run 20 times per second!
 
-    public static void sendMessageToAllPlayersRecuring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle) {
-        final double perSecond = 1 / seconds;
+    public static void sendMessageToAllPlayersRecurring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle) {
         Bukkit.getScheduler().cancelTask(taskID);
-        currentSecond = seconds;
+
+        final double perTime;
+        if( perTick ) {
+            currentTime = seconds * 20;
+            perTime = 1 / ( seconds * 20 );
+        } else {
+            currentTime = seconds;
+            perTime = 1 / seconds;
+        }
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1, 1);
         }
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (currentSecond < 0) {
+                if (currentTime < 0) {
                     clearAllPlayers();
                     Bukkit.getScheduler().cancelTask(taskID);
                     return;
                 }
-                sendMessageToAllPlayers(message, currentSecond * perSecond, barColor, barStyle);
-                currentSecond--;
+                sendMessageToAllPlayers(message, currentTime * perTime, barColor, barStyle);
+                currentTime--;
             }
         };
-        taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 20L).getTaskId();
+
+        if( perTick ) {
+            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 1L).getTaskId();
+        } else {
+            taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 20L).getTaskId();
+        }
     }
 
     public static void sendMessageToAllPlayers(String message, double progress, BarColor barColor, BarStyle barStyle) {

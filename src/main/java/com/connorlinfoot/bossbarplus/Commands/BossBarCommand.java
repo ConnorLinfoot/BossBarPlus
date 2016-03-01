@@ -2,7 +2,6 @@ package com.connorlinfoot.bossbarplus.Commands;
 
 import com.connorlinfoot.bossbarplus.BossBarAPI;
 import com.connorlinfoot.bossbarplus.BossBarPlus;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -77,7 +76,7 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BossBarAPI.sendMessageToAllPlayersRecuring(message, time, bossBarColor, bossBarStyle);
+                    BossBarAPI.sendMessageToAllPlayersRecurring(message, time, bossBarColor, bossBarStyle);
 
                     sender.sendMessage(ChatColor.GREEN + "Broadcast successful");
                     break;
