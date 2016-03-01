@@ -27,8 +27,19 @@ public class BossBarPlus extends JavaPlugin {
         }
 
         getServer().getPluginCommand("bbp").setExecutor(new BossBarCommand());
-        barColor = BarColor.valueOf(getConfig().getString("Boss Bar Color").toUpperCase());
-        barStyle = BarStyle.valueOf(getConfig().getString("Boss Bar Style").toUpperCase());
+        try {
+            barColor = BarColor.valueOf(getConfig().getString("Default Options.Boss Bar Color").toUpperCase());
+        } catch (Exception e) {
+            getLogger().warning("Invalid \"Boss Bar Color\", Defaulted to \"PURPLE\"");
+            barColor = BarColor.PURPLE;
+        }
+
+        try {
+            barStyle = BarStyle.valueOf(getConfig().getString("Default Options.Boss Bar Style").toUpperCase());
+        } catch (Exception e) {
+            getLogger().warning("Invalid \"Boss Bar Style\", Defaulted to \"SOLID\"");
+            barStyle = BarStyle.SOLID;
+        }
 
     }
 

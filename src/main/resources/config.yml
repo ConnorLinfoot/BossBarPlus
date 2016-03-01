@@ -1,3 +1,7 @@
+# Options for Boss Bar Color can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html
+# Options for Boss Bar Style can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
+
 Metrics: true
-Boss Bar Color: PURPLE
-Boss Bar Style: SOLID
+Default Options:
+  Boss Bar Color: PURPLE
+  Boss Bar Style: SOLID
