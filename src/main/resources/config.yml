@@ -2,6 +2,9 @@
 # Options for Boss Bar Style can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html
 
 Metrics: true
+
+Smooth Animations: false # This will use much more resources as it does work 20x more than without
+
 Default Options:
   Boss Bar Color: PURPLE
   Boss Bar Style: SOLID

@@ -14,7 +14,7 @@ public class BossBarAPI {
     private static BossBar globalJoinBossBar = null;
     private static double currentTime = 0;
     private static int taskID = 0;
-    private static boolean perTick = false; // If true it will run 20 times per second!
+    private static boolean perTick = BossBarPlus.isSmooth(); // If true it will run 20 times per second!
 
     public static void sendMessageToAllPlayersRecurring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
         Bukkit.getScheduler().cancelTask(taskID);
@@ -60,7 +60,7 @@ public class BossBarAPI {
             globalBossBar.setStyle(barStyle);
         }
 
-        if( globalBossBar.getPlayers().size() == 0 && Bukkit.getOnlinePlayers().size() > 0 ) {
+        if (globalBossBar.getPlayers().size() == 0 && Bukkit.getOnlinePlayers().size() > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (permission != null && !permission.isEmpty() && player.hasPermission(permission))
                     continue;

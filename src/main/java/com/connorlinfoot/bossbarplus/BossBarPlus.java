@@ -15,6 +15,7 @@ public class BossBarPlus extends JavaPlugin {
     private static BarColor barColor = BarColor.PURPLE;
     private static BarStyle barStyle = BarStyle.SOLID;
 
+    private static boolean smooth = false;
     private static boolean joinEnabled = false;
     private static double joinTime = 0;
 
@@ -31,6 +32,8 @@ public class BossBarPlus extends JavaPlugin {
                 // Failed to submit the stats :-(
             }
         }
+
+        smooth = getConfig().getBoolean("Smooth Animations");
 
         try {
             barColor = BarColor.valueOf(getConfig().getString("Default Options.Boss Bar Color").toUpperCase());
@@ -95,6 +98,10 @@ public class BossBarPlus extends JavaPlugin {
 
     public static boolean isJoinEnabled() {
         return joinEnabled;
+    }
+
+    public static boolean isSmooth() {
+        return smooth;
     }
 
 }
