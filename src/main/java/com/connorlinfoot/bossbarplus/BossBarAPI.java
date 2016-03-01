@@ -8,21 +8,28 @@ import org.bukkit.entity.Player;
 
 public class BossBarAPI {
     private static BossBar globalBossBar = null;
+    private static double currentSecond = 0;
+    private static double totalSeconds = 0;
+    private static int taskID = 0;
 
-    public static void sendMessageToAllPlayers(final String message, int seconds, final BarColor barColor, final BarStyle barStyle) {
+    public static void sendMessageToAllPlayersRecuring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle) {
         final double perSecond = 1 / seconds;
-
-        Runnable runnable = new Runnable() {
+        Bukkit.getScheduler().cancelTask(taskID);
+        totalSeconds = seconds;
+        currentSecond = seconds;
+        final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                sendMessageToAllPlayers(message, .5, barColor, barStyle);
+                if (currentSecond < 0) {
+                    clearAllPlayers();
+                    Bukkit.getScheduler().cancelTask(taskID);
+                    return;
+                }
+                sendMessageToAllPlayers(message, currentSecond * perSecond, barColor, barStyle);
+                currentSecond--;
             }
         };
-        runnable.run();
-    }
-
-    public static void sendMessageToAllPlayers(String message, double progress) {
-        sendMessageToAllPlayers(message, progress, BarColor.GREEN, BarStyle.SEGMENTED_6);
+        taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 20L).getTaskId();
     }
 
     public static void sendMessageToAllPlayers(String message, double progress, BarColor barColor, BarStyle barStyle) {
@@ -40,6 +47,12 @@ public class BossBarAPI {
         }
         globalBossBar.setProgress(progress);
         globalBossBar.show();
+    }
+
+    public static void clearAllPlayers() {
+        globalBossBar.hide();
+        globalBossBar.removeAll();
+        globalBossBar.setTitle("");
     }
 
 }

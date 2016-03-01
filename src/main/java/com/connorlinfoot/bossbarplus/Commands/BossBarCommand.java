@@ -77,7 +77,7 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BossBarAPI.sendMessageToAllPlayers(message, time, bossBarColor, bossBarStyle);
+                    BossBarAPI.sendMessageToAllPlayersRecuring(message, time, bossBarColor, bossBarStyle);
 
                     sender.sendMessage(ChatColor.GREEN + "Broadcast successful");
                     break;

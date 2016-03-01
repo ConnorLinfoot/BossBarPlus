@@ -8,10 +8,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 
 public class BossBarPlus extends JavaPlugin {
+    private static BossBarPlus bossBarPlus;
     private static BarColor barColor = BarColor.PURPLE;
     private static BarStyle barStyle = BarStyle.SOLID;
 
     public void onEnable() {
+        bossBarPlus = this;
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -36,6 +38,10 @@ public class BossBarPlus extends JavaPlugin {
 
     public static BarStyle getBarStyle() {
         return barStyle;
+    }
+
+    public static BossBarPlus getPlugin() {
+        return bossBarPlus;
     }
 
 }
