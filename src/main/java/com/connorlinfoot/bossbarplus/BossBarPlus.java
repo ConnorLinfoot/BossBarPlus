@@ -2,6 +2,7 @@ package com.connorlinfoot.bossbarplus;
 
 import com.connorlinfoot.bossbarplus.Commands.BossBarCommand;
 import com.connorlinfoot.bossbarplus.Listeners.PlayerJoin;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,8 +46,8 @@ public class BossBarPlus extends JavaPlugin {
         }
 
         joinEnabled = getConfig().getBoolean("Broadcast on Join.Enabled");
-        if( joinEnabled ) {
-            String joinMessage = getConfig().getString("Broadcast on Join.Message");
+        if (joinEnabled) {
+            String joinMessage = ChatColor.translateAlternateColorCodes('&', getConfig().getString("Broadcast on Join.Message"));
             joinTime = getConfig().getDouble("Broadcast on Join.Time");
 
             BarColor joinColor;
