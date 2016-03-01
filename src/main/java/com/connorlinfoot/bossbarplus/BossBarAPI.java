@@ -35,7 +35,6 @@ public class BossBarAPI {
             public void run() {
                 if (currentTime < 0) {
                     clearAllPlayers();
-                    Bukkit.getScheduler().cancelTask(taskID);
                     return;
                 }
                 sendMessageToAllPlayers(message, currentTime * perTime, barColor, barStyle, permission);
@@ -43,6 +42,7 @@ public class BossBarAPI {
             }
         };
 
+        barCurrentlyRunning = true;
         if (perTick) {
             taskID = Bukkit.getScheduler().runTaskTimerAsynchronously(BossBarPlus.getPlugin(), runnable, 0L, 1L).getTaskId();
         } else {
@@ -72,6 +72,7 @@ public class BossBarAPI {
 
     public static void clearAllPlayers() {
         Bukkit.getScheduler().cancelTask(taskID);
+        barCurrentlyRunning = false;
         globalBossBar.hide();
         globalBossBar.removeAll();
         globalBossBar.setTitle("");
