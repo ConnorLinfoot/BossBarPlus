@@ -92,7 +92,7 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BossBarAPI.sendBarToAll(message, time, bossBarColor, bossBarStyle, permission);
+                    BossBarAPI.broadcastBar(message, time, bossBarColor, bossBarStyle, permission);
 
                     sender.sendMessage(ChatColor.GREEN + "Broadcast has been sent successfully");
                     break;

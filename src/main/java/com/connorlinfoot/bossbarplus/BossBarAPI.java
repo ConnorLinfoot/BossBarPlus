@@ -1,6 +1,7 @@
 package com.connorlinfoot.bossbarplus;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -15,7 +16,19 @@ public class BossBarAPI {
     private static int taskID = 0;
     private static boolean perTick = BossBarPlus.getConfigHandler().isSmooth(); // If true it will run 20 times per second!
 
-    public static void sendBarToAll(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
+    public static void broadcastBar(final String message, double seconds) {
+        broadcastBar(message, seconds, BossBarPlus.getConfigHandler().getDefaultColor(), BossBarPlus.getConfigHandler().getDefaultStyle(), null);
+    }
+
+    public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle) {
+        broadcastBar(message, seconds, barColor, barStyle, null);
+    }
+
+    public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
+        broadcastBar(message, seconds, barColor, barStyle, permission, BossBarPlus.getConfigHandler().isSoundEnabled(), BossBarPlus.getConfigHandler().getDefaultSound());
+    }
+
+    public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission, boolean soundEnabled, Sound sound) {
         Bukkit.getScheduler().cancelTask(taskID);
         globalBossBarPerm = permission;
         final double perTime;
@@ -26,9 +39,9 @@ public class BossBarAPI {
             currentTime = seconds;
             perTime = 1 / seconds;
         }
-        if (BossBarPlus.getConfigHandler().isSoundEnabled()) {
+        if (soundEnabled) {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                player.playSound(player.getLocation(), BossBarPlus.getConfigHandler().getDefaultSound(), 1, 1);
+                player.playSound(player.getLocation(), sound, 1, 1);
             }
         }
         final Runnable runnable = new Runnable() {
@@ -38,7 +51,7 @@ public class BossBarAPI {
                     clearBar();
                     return;
                 }
-                sendBarToAll(message, barColor, barStyle, permission, currentTime * perTime);
+                sendBar(message, barColor, barStyle, currentTime * perTime, permission);
                 currentTime--;
             }
         };
@@ -51,7 +64,19 @@ public class BossBarAPI {
         }
     }
 
-    public static void sendBarToAll(String message, BarColor barColor, BarStyle barStyle, String permission, double progress) {
+    public static void sendBar(String message) {
+        sendBar(message, BossBarPlus.getConfigHandler().getDefaultColor(), BossBarPlus.getConfigHandler().getDefaultStyle(), 1, null);
+    }
+
+    public static void sendBar(String message, BarColor barColor, BarStyle barStyle) {
+        sendBar(message, barColor, barStyle, 1, null);
+    }
+
+    public static void sendBar(String message, BarColor barColor, BarStyle barStyle, double progress) {
+        sendBar(message, barColor, barStyle, progress, null);
+    }
+
+    public static void sendBar(String message, BarColor barColor, BarStyle barStyle, double progress, String permission) {
         if (globalBossBar == null) {
             globalBossBar = Bukkit.createBossBar(message, barColor, barStyle);
             globalBossBar.show();
