@@ -70,7 +70,7 @@ public class BossBarPlus extends JavaPlugin {
                 joinStyle = BarStyle.SOLID;
             }
 
-            BossBarAPI.createJoinBossBar(joinMessage, joinTime, joinColor, joinStyle);
+            BossBarAPI.setupJoinBossBar(joinMessage, joinTime, joinColor, joinStyle);
         }
 
 

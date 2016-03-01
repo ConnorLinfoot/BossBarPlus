@@ -18,12 +18,12 @@ public class PlayerJoin implements Listener {
             BossBarAPI.getGlobalBossBar().addPlayer(event.getPlayer());
         }
 
-        if(!BossBarPlus.isJoinEnabled() || BossBarAPI.getGlobalJoinBossBar() == null)
+        if(!BossBarPlus.isJoinEnabled() || BossBarAPI.getJoinBossBar() == null)
             return;
 
-        BossBarAPI.getGlobalJoinBossBar().addPlayer(event.getPlayer());
+        BossBarAPI.getJoinBossBar().addPlayer(event.getPlayer());
         if( BossBarPlus.getJoinTime() > 0 ) {
-            BossBarAPI.getGlobalJoinBossBar().addPlayer(event.getPlayer());
+            BossBarAPI.getJoinBossBar().addPlayer(event.getPlayer());
         }
         final UUID playerUUID = event.getPlayer().getUniqueId();
         Bukkit.getScheduler().runTaskLaterAsynchronously(BossBarPlus.getPlugin(), new Runnable() {
@@ -32,7 +32,7 @@ public class PlayerJoin implements Listener {
                 Player player = Bukkit.getPlayer(playerUUID);
                 if(player == null)
                     return;
-                BossBarAPI.getGlobalJoinBossBar().removePlayer(player);
+                BossBarAPI.getJoinBossBar().removePlayer(player);
             }
         }, (long) (BossBarPlus.getJoinTime() * 20L));
     }

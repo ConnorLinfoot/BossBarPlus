@@ -92,12 +92,12 @@ public class BossBarCommand implements CommandExecutor {
                         return false;
                     }
 
-                    BossBarAPI.sendMessageToAllPlayersRecurring(message, time, bossBarColor, bossBarStyle, permission);
+                    BossBarAPI.sendBarToAll(message, time, bossBarColor, bossBarStyle, permission);
 
                     sender.sendMessage(ChatColor.GREEN + "Broadcast has been sent successfully");
                     break;
                 case "clear":
-                    BossBarAPI.clearAllPlayers();
+                    BossBarAPI.clearBar();
                     sender.sendMessage(ChatColor.GREEN + "Cleared BossBar");
                     break;
 
