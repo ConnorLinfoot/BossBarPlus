@@ -55,10 +55,20 @@ public class BossBarCommand implements CommandExecutor {
                     StringBuilder messageBuffer = new StringBuilder();
                     for (int i = start; i < args.length; i++) {
                         if (bossBarColor == null) {
-                            bossBarColor = BarColor.valueOf(args[i]);
+                            try {
+                                bossBarColor = BarColor.valueOf(args[i]);
+                            } catch (Exception e) {
+                                sender.sendMessage(ChatColor.RED + "Invalid option for -c, check the options here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarColor.html");
+                                return false;
+                            }
                             continue;
                         } else if (bossBarStyle == null) {
-                            bossBarStyle = BarStyle.valueOf(args[i]);
+                            try {
+                                bossBarStyle = BarStyle.valueOf(args[i]);
+                            } catch (Exception e) {
+                                sender.sendMessage(ChatColor.RED + "Invalid option for -s, check the options here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/boss/BarStyle.html");
+                                return false;
+                            }
                             continue;
                         } else if (args[i].toLowerCase().equals("-c")) {
                             bossBarColor = null;
@@ -78,7 +88,7 @@ public class BossBarCommand implements CommandExecutor {
 
                     BossBarAPI.sendMessageToAllPlayersRecurring(message, time, bossBarColor, bossBarStyle);
 
-                    sender.sendMessage(ChatColor.GREEN + "Broadcast successful");
+                    sender.sendMessage(ChatColor.GREEN + "Broadcast has been sent successfully");
                     break;
                 case "clear":
                     BossBarAPI.clearAllPlayers();
