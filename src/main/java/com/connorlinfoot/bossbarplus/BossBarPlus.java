@@ -14,9 +14,6 @@ public class BossBarPlus extends JavaPlugin {
     private static BarStyle barStyle = BarStyle.SOLID;
 
     private static boolean joinEnabled = false;
-    private static String joinMessage = "";
-    private static BarColor joinColor = BarColor.BLUE;
-    private static BarStyle joinStyle = BarStyle.SOLID;
     private static double joinTime = 0;
 
     public void onEnable() {
@@ -49,9 +46,10 @@ public class BossBarPlus extends JavaPlugin {
 
         joinEnabled = getConfig().getBoolean("Broadcast on Join.Enabled");
         if( joinEnabled ) {
-            joinMessage = getConfig().getString("Broadcast on Join.Message");
+            String joinMessage = getConfig().getString("Broadcast on Join.Message");
             joinTime = getConfig().getDouble("Broadcast on Join.Time");
 
+            BarColor joinColor;
             try {
                 joinColor = BarColor.valueOf(getConfig().getString("Broadcast on Join.Color").toUpperCase());
             } catch (Exception e) {
@@ -59,6 +57,7 @@ public class BossBarPlus extends JavaPlugin {
                 joinColor = BarColor.BLUE;
             }
 
+            BarStyle joinStyle;
             try {
                 joinStyle = BarStyle.valueOf(getConfig().getString("Broadcast on Join.Style").toUpperCase());
             } catch (Exception e) {
