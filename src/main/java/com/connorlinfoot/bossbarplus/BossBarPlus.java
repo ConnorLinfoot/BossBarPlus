@@ -2,6 +2,7 @@ package com.connorlinfoot.bossbarplus;
 
 import com.connorlinfoot.bossbarplus.Commands.BossBarCommand;
 import com.connorlinfoot.bossbarplus.Listeners.PlayerJoin;
+import com.connorlinfoot.bossbarplus.Listeners.PlayerQuit;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -72,6 +73,7 @@ public class BossBarPlus extends JavaPlugin {
 
         getServer().getPluginCommand("bbp").setExecutor(new BossBarCommand());
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 
     }
 

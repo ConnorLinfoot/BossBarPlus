@@ -8,7 +8,9 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 
 public class BossBarAPI {
+    private static boolean barCurrentlyRunning = false;
     private static BossBar globalBossBar = null;
+    private static String globalBossBarPerm = null;
     private static BossBar globalJoinBossBar = null;
     private static double currentTime = 0;
     private static int taskID = 0;
@@ -16,7 +18,7 @@ public class BossBarAPI {
 
     public static void sendMessageToAllPlayersRecurring(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
         Bukkit.getScheduler().cancelTask(taskID);
-
+        globalBossBarPerm = permission;
         final double perTime;
         if (perTick) {
             currentTime = seconds * 20;
@@ -51,20 +53,21 @@ public class BossBarAPI {
     public static void sendMessageToAllPlayers(String message, double progress, BarColor barColor, BarStyle barStyle, String permission) {
         if (globalBossBar == null) {
             globalBossBar = Bukkit.createBossBar(message, barColor, barStyle);
+            globalBossBar.show();
         } else {
             globalBossBar.setTitle(message);
             globalBossBar.setColor(barColor);
             globalBossBar.setStyle(barStyle);
         }
 
-        globalBossBar.removeAll();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (permission != null && !permission.isEmpty() && player.hasPermission(permission))
-                continue;
-            globalBossBar.addPlayer(player);
+        if( globalBossBar.getPlayers().size() == 0 && Bukkit.getOnlinePlayers().size() > 0 ) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (permission != null && !permission.isEmpty() && player.hasPermission(permission))
+                    continue;
+                globalBossBar.addPlayer(player);
+            }
         }
         globalBossBar.setProgress(progress);
-        globalBossBar.show();
     }
 
     public static void clearAllPlayers() {
@@ -90,6 +93,18 @@ public class BossBarAPI {
 
     public static BossBar getGlobalJoinBossBar() {
         return globalJoinBossBar;
+    }
+
+    public static boolean isBarCurrentlyRunning() {
+        return barCurrentlyRunning;
+    }
+
+    public static BossBar getGlobalBossBar() {
+        return globalBossBar;
+    }
+
+    public static String getGlobalBossBarPerm() {
+        return globalBossBarPerm;
     }
 
 }

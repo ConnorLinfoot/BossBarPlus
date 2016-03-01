@@ -14,6 +14,10 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if( BossBarAPI.isBarCurrentlyRunning() && ( BossBarAPI.getGlobalBossBarPerm() == null || !event.getPlayer().hasPermission(BossBarAPI.getGlobalBossBarPerm())) ) {
+            BossBarAPI.getGlobalBossBar().addPlayer(event.getPlayer());
+        }
+
         if(!BossBarPlus.isJoinEnabled() || BossBarAPI.getGlobalJoinBossBar() == null)
             return;
 
