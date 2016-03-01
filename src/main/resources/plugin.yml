@@ -4,7 +4,7 @@ main: com.connorlinfoot.bossbarplus.BossBarPlus
 version: ${project.version}
 commands:
   bbp:
-    description: Main CratesPlus command
+    description: Main BossBarPlus command
     aliases: [bossbarplus,bossbar,bb,bar]
 permissions:
   bossbarplus.admin:
