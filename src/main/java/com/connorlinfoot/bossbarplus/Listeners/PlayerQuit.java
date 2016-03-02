@@ -10,7 +10,7 @@ public class PlayerQuit implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         if (BossBarAPI.isBarCurrentlyRunning()) {
-            BossBarAPI.getGlobalBossBar().removePlayer(event.getPlayer());
+            BossBarAPI.getBossBar().removePlayer(event.getPlayer());
         }
     }
 

@@ -110,7 +110,7 @@ public class BossBarCommand implements CommandExecutor {
     }
 
     private void sendHelp(CommandSender sender, String label){
-        sender.sendMessage(ChatColor.YELLOW + "---------- " + ChatColor.AQUA + ChatColor.BOLD + "BossBarPlus" + ChatColor.YELLOW + " ----------");
+        sender.sendMessage(ChatColor.YELLOW + "--------------- " + ChatColor.AQUA + ChatColor.BOLD + "BossBarPlus" + ChatColor.YELLOW + " ---------------");
         sender.sendMessage(ChatColor.YELLOW + "/" + label + " broadcast <time> <args> <message>" + ChatColor.AQUA + " - Broadcast a message to all players with the boss bar");
         sender.sendMessage(ChatColor.YELLOW + "/" + label + " clear" + ChatColor.AQUA + " - Clear boss bar (if there is one)");
     }

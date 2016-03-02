@@ -17,3 +17,11 @@ Broadcast on Join:
   Color: BLUE
   Style: SOLID
   Time: 10 # Time of 0 will result in the broadcast showing forever!
+
+Announcer:
+  Enabled: false
+  Time: 20
+  Messages:
+  - "Message &61"
+  - "Message &e2"
+  - "Message &b3"

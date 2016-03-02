@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class BossBarAPI {
     private static boolean barCurrentlyRunning = false;
-    private static BossBar globalBossBar = null;
-    private static String globalBossBarPerm = null;
+    private static BossBar bossBar = null;
     private static BossBar joinBossBar = null;
+    private static String bossBarPerm = null;
     private static double currentTime = 0;
     private static int taskID = 0;
     private static boolean perTick = BossBarPlus.getConfigHandler().isSmooth(); // If true it will run 20 times per second!
@@ -30,7 +30,7 @@ public class BossBarAPI {
 
     public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission, boolean soundEnabled, Sound sound) {
         Bukkit.getScheduler().cancelTask(taskID);
-        globalBossBarPerm = permission;
+        bossBarPerm = permission;
         final double perTime;
         if (perTick) {
             currentTime = seconds * 20;
@@ -77,31 +77,31 @@ public class BossBarAPI {
     }
 
     public static void sendBar(String message, BarColor barColor, BarStyle barStyle, double progress, String permission) {
-        if (globalBossBar == null) {
-            globalBossBar = Bukkit.createBossBar(message, barColor, barStyle);
-            globalBossBar.show();
+        if (bossBar == null) {
+            bossBar = Bukkit.createBossBar(message, barColor, barStyle);
+            bossBar.show();
         } else {
-            globalBossBar.setTitle(message);
-            globalBossBar.setColor(barColor);
-            globalBossBar.setStyle(barStyle);
+            bossBar.setTitle(message);
+            bossBar.setColor(barColor);
+            bossBar.setStyle(barStyle);
         }
 
-        if (globalBossBar.getPlayers().size() == 0 && Bukkit.getOnlinePlayers().size() > 0) {
+        if (bossBar.getPlayers().size() == 0 && Bukkit.getOnlinePlayers().size() > 0) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (permission != null && !permission.isEmpty() && player.hasPermission(permission))
                     continue;
-                globalBossBar.addPlayer(player);
+                bossBar.addPlayer(player);
             }
         }
-        globalBossBar.setProgress(progress);
+        bossBar.setProgress(progress);
     }
 
     public static void clearBar() {
         Bukkit.getScheduler().cancelTask(taskID);
         barCurrentlyRunning = false;
-        globalBossBar.hide();
-        globalBossBar.removeAll();
-        globalBossBar.setTitle("");
+        bossBar.hide();
+        bossBar.removeAll();
+        bossBar.setTitle("");
     }
 
     public static void setupJoinBossBar(String message, double time, BarColor barColor, BarStyle barStyle) {
@@ -126,12 +126,12 @@ public class BossBarAPI {
         return barCurrentlyRunning;
     }
 
-    public static BossBar getGlobalBossBar() {
-        return globalBossBar;
+    public static BossBar getBossBar() {
+        return bossBar;
     }
 
-    public static String getGlobalBossBarPerm() {
-        return globalBossBarPerm;
+    public static String getBossBarPerm() {
+        return bossBarPerm;
     }
 
 }

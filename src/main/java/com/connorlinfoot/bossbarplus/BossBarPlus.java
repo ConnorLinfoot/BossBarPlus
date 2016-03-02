@@ -4,6 +4,8 @@ import com.connorlinfoot.bossbarplus.Commands.BossBarCommand;
 import com.connorlinfoot.bossbarplus.Handlers.ConfigHandler;
 import com.connorlinfoot.bossbarplus.Listeners.PlayerJoin;
 import com.connorlinfoot.bossbarplus.Listeners.PlayerQuit;
+import net.md_5.bungee.api.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -11,6 +13,15 @@ import java.io.IOException;
 public class BossBarPlus extends JavaPlugin {
     private static BossBarPlus bossBarPlus;
     private static ConfigHandler configHandler = new ConfigHandler();
+    private int nextMessage = 0;
+
+    public static BossBarPlus getBossBarPlus() {
+        return bossBarPlus;
+    }
+
+    public static ConfigHandler getConfigHandler() {
+        return configHandler;
+    }
 
     public void onEnable() {
         bossBarPlus = this;
@@ -27,6 +38,8 @@ public class BossBarPlus extends JavaPlugin {
         }
 
         configHandler.loadConfig(getConfig(), getLogger());
+        if (configHandler.isAnnouncerEnabled())
+            startAnnouncerTask();
 
         getServer().getPluginCommand("bbp").setExecutor(new BossBarCommand());
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
@@ -34,12 +47,23 @@ public class BossBarPlus extends JavaPlugin {
 
     }
 
-    public static BossBarPlus getBossBarPlus() {
-        return bossBarPlus;
+    @Override
+    public void onDisable() {
+        BossBarAPI.clearBar();
     }
 
-    public static ConfigHandler getConfigHandler() {
-        return configHandler;
+    private void startAnnouncerTask() {
+        Runnable announcerRunnable = new Runnable() {
+            @Override
+            public void run() {
+                String message = ChatColor.translateAlternateColorCodes('&', configHandler.getAnnouncerMessages().get(nextMessage));
+                BossBarAPI.sendBar(message);
+                nextMessage++;
+                if (nextMessage > configHandler.getAnnouncerMessages().size() - 1)
+                    nextMessage = 0;
+            }
+        };
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, announcerRunnable, 0L, (long) (configHandler.getAnnouncerTime() * 20L));
     }
 
 }
