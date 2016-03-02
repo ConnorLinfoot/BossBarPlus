@@ -14,7 +14,7 @@ public class BossBarPlus extends JavaPlugin {
     private static BossBarPlus bossBarPlus;
     private static ConfigHandler configHandler = new ConfigHandler();
     private int nextMessage = 0;
-    private int announcerCountdown = 0;
+    private int announcerCounter = 0;
 
     public static BossBarPlus getBossBarPlus() {
         return bossBarPlus;
@@ -59,16 +59,16 @@ public class BossBarPlus extends JavaPlugin {
             @Override
             public void run() {
                 double perSecond = 1 / (configHandler.isSmooth() ? configHandler.getAnnouncerTime() * 20 : configHandler.getAnnouncerTime());
-                double percentage = perSecond * ((configHandler.isSmooth() ? configHandler.getAnnouncerTime() * 20 : configHandler.getAnnouncerTime()) - announcerCountdown);
+                double percentage = perSecond * ((configHandler.isSmooth() ? configHandler.getAnnouncerTime() * 20 : configHandler.getAnnouncerTime()) - announcerCounter);
                 String message = ChatColor.translateAlternateColorCodes('&', configHandler.getAnnouncerMessages().get(nextMessage));
                 BossBarAPI.sendBar(message, configHandler.getAnnouncerColor(), configHandler.getAnnouncerStyle(), percentage);
-                if (announcerCountdown == (configHandler.isSmooth() ? configHandler.getAnnouncerTime() * 20L : configHandler.getAnnouncerTime())) {
+                if (announcerCounter == (configHandler.isSmooth() ? configHandler.getAnnouncerTime() * 20L : configHandler.getAnnouncerTime())) {
                     nextMessage++;
-                    announcerCountdown = 0;
+                    announcerCounter = 0;
                     if (nextMessage > configHandler.getAnnouncerMessages().size() - 1)
                         nextMessage = 0;
                 } else {
-                    announcerCountdown++;
+                    announcerCounter++;
                 }
             }
         };
