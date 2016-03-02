@@ -2,6 +2,7 @@ package com.connorlinfoot.bossbarplus.Commands;
 
 import com.connorlinfoot.bossbarplus.BossBarAPI;
 import com.connorlinfoot.bossbarplus.BossBarPlus;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -100,7 +101,10 @@ public class BossBarCommand implements CommandExecutor {
                     BossBarAPI.clearBar();
                     sender.sendMessage(ChatColor.GREEN + "Cleared BossBar");
                     break;
-
+                case "reload":
+                    BossBarPlus.getConfigHandler().loadConfig(BossBarPlus.getBossBarPlus().getConfig(), Bukkit.getLogger());
+                    sender.sendMessage(ChatColor.GREEN + "Reloaded Config");
+                    break;
             }
         } else {
             sender.sendMessage(ChatColor.AQUA + "BossBarPlus v" + BossBarPlus.getBossBarPlus().getDescription().getVersion() + " - Created by Connor Linfoot");
@@ -113,6 +117,7 @@ public class BossBarCommand implements CommandExecutor {
         sender.sendMessage(ChatColor.YELLOW + "--------------- " + ChatColor.AQUA + ChatColor.BOLD + "BossBarPlus" + ChatColor.YELLOW + " ---------------");
         sender.sendMessage(ChatColor.YELLOW + "/" + label + " broadcast <time> <args> <message>" + ChatColor.AQUA + " - Broadcast a message to all players with the boss bar");
         sender.sendMessage(ChatColor.YELLOW + "/" + label + " clear" + ChatColor.AQUA + " - Clear boss bar (if there is one)");
+        sender.sendMessage(ChatColor.YELLOW + "/" + label + " reload" + ChatColor.AQUA + " - Reload config file");
     }
 
 }
