@@ -99,15 +99,19 @@ public class BossBarAPI {
     public static void clearBar() {
         Bukkit.getScheduler().cancelTask(taskID);
         barCurrentlyRunning = false;
-        bossBar.hide();
-        bossBar.setTitle("");
-        bossBar.removeAll();
+        if (bossBar != null) {
+            bossBar.hide();
+            bossBar.setTitle("");
+            bossBar.removeAll();
+        }
     }
 
     public static void clearJoinBar() {
-        joinBossBar.hide();
-        joinBossBar.setTitle("");
-        joinBossBar.removeAll();
+        if (joinBossBar != null) {
+            joinBossBar.hide();
+            joinBossBar.setTitle("");
+            joinBossBar.removeAll();
+        }
     }
 
     public static void setupJoinBossBar(String message, double time, BarColor barColor, BarStyle barStyle) {
