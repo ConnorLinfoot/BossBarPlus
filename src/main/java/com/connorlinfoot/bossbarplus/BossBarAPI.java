@@ -100,8 +100,14 @@ public class BossBarAPI {
         Bukkit.getScheduler().cancelTask(taskID);
         barCurrentlyRunning = false;
         bossBar.hide();
-        bossBar.removeAll();
         bossBar.setTitle("");
+        bossBar.removeAll();
+    }
+
+    public static void clearJoinBar() {
+        joinBossBar.hide();
+        joinBossBar.setTitle("");
+        joinBossBar.removeAll();
     }
 
     public static void setupJoinBossBar(String message, double time, BarColor barColor, BarStyle barStyle) {

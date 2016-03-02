@@ -50,6 +50,7 @@ public class BossBarPlus extends JavaPlugin {
     @Override
     public void onDisable() {
         BossBarAPI.clearBar();
+        BossBarAPI.clearJoinBar();
     }
 
     private void startAnnouncerTask() {

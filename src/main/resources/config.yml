@@ -3,7 +3,7 @@
 
 Metrics: true
 
-Smooth Animations: false # This will use much more resources as it does work 20x more than without
+Smooth Animations: false # This will use much more resources as it does work 20x more often
 
 Default Options:
   Boss Bar Color: PURPLE
