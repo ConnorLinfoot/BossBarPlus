@@ -21,6 +21,8 @@ Broadcast on Join:
 Announcer:
   Enabled: false
   Time: 20
+  Color: GREEN
+  Style: SOLID
   Messages:
   - "Message &61"
   - "Message &e2"

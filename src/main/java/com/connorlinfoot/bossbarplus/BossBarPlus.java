@@ -58,7 +58,7 @@ public class BossBarPlus extends JavaPlugin {
             @Override
             public void run() {
                 String message = ChatColor.translateAlternateColorCodes('&', configHandler.getAnnouncerMessages().get(nextMessage));
-                BossBarAPI.sendBar(message);
+                BossBarAPI.sendBar(message, configHandler.getAnnouncerColor(), configHandler.getAnnouncerStyle());
                 nextMessage++;
                 if (nextMessage > configHandler.getAnnouncerMessages().size() - 1)
                     nextMessage = 0;

@@ -19,7 +19,9 @@ public class ConfigHandler {
     private double joinTime = 0;
     private double announcerTime = 20;
     private BarColor defaultColor = BarColor.PURPLE;
+    private BarColor announcerColor = BarColor.GREEN;
     private BarStyle defaultStyle = BarStyle.SOLID;
+    private BarStyle announcerStyle = BarStyle.SOLID;
     private Sound defaultSound = Sound.ENTITY_ENDERDRAGON_GROWL;
     private ArrayList<String> announcerMessages = new ArrayList<>();
 
@@ -49,6 +51,20 @@ public class ConfigHandler {
             setDefaultStyle(BarStyle.valueOf(config.getString("Default Options.Boss Bar Style").toUpperCase()));
         } catch (Exception e) {
             logger.warning("Invalid \"Boss Bar Style\", Defaulted to \"SOLID\"");
+            setDefaultStyle(BarStyle.SOLID);
+        }
+
+        try {
+            setAnnouncerColor(BarColor.valueOf(config.getString("Announcer.Color").toUpperCase()));
+        } catch (Exception e) {
+            logger.warning("Invalid \"Announcer Color\", Defaulted to \"GREEN\"");
+            setDefaultColor(BarColor.GREEN);
+        }
+
+        try {
+            setAnnouncerStyle(BarStyle.valueOf(config.getString("Announcer.Style").toUpperCase()));
+        } catch (Exception e) {
+            logger.warning("Invalid \"Announcer Style\", Defaulted to \"SOLID\"");
             setDefaultStyle(BarStyle.SOLID);
         }
 
@@ -145,12 +161,28 @@ public class ConfigHandler {
         this.defaultColor = defaultColor;
     }
 
+    public BarColor getAnnouncerColor() {
+        return announcerColor;
+    }
+
+    public void setAnnouncerColor(BarColor announcerColor) {
+        this.announcerColor = announcerColor;
+    }
+
     public BarStyle getDefaultStyle() {
         return defaultStyle;
     }
 
     public void setDefaultStyle(BarStyle defaultStyle) {
         this.defaultStyle = defaultStyle;
+    }
+
+    public BarStyle getAnnouncerStyle() {
+        return announcerStyle;
+    }
+
+    public void setAnnouncerStyle(BarStyle announcerStyle) {
+        this.announcerStyle = announcerStyle;
     }
 
     public Sound getDefaultSound() {
