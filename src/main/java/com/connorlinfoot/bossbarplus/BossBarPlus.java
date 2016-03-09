@@ -41,7 +41,7 @@ public class BossBarPlus extends JavaPlugin {
 		}
 
 		if (getServer().getPluginManager().getPlugin("ViaVersion") != null) {
-			BossBarAPI.setIsViaVersion(true);
+			BossBarAPI.setViaVersion(true);
 		}
 
 		configHandler.loadConfig(getConfig(), getLogger());
