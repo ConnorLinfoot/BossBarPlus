@@ -4,6 +4,7 @@ import com.connorlinfoot.bossbarplus.BossBar.BarColor;
 import com.connorlinfoot.bossbarplus.BossBar.BarStyle;
 import com.connorlinfoot.bossbarplus.BossBar.BossBarAPI;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class ConfigHandler {
 	private BarColor announcerColor = BarColor.GREEN;
 	private BarStyle defaultStyle = BarStyle.SOLID;
 	private BarStyle announcerStyle = BarStyle.SOLID;
-	//	private Sound defaultSound = Sound.ENTITY_ENDERDRAGON_GROWL;
+	private Sound defaultSound;
 	private ArrayList<String> announcerMessages = new ArrayList<>();
 
 	public void loadConfig(FileConfiguration config, Logger logger) {
@@ -32,12 +33,21 @@ public class ConfigHandler {
 		setSoundEnabled(config.getBoolean("Default Options.Enable Sound"));
 		setAnnouncerEnabled(config.getBoolean("Announcer.Enabled"));
 
-//		try {
-//			setDefaultSound(Sound.valueOf(config.getString("Default Options.Sound").toUpperCase()));
-//		} catch (Exception e) {
-//			logger.warning("Invalid \"Sound\", Defaulted to \"ENTITY_ENDERDRAGON_GROWL\"");
-//			setDefaultSound(Sound.ENTITY_ENDERDRAGON_GROWL);
-//		}
+		try {
+			setDefaultSound(Sound.valueOf(config.getString("Default Options.Sound").toUpperCase()));
+		} catch (Exception e) {
+			try {
+				setDefaultSound(Sound.valueOf("ENTITY_ENDERDRAGON_GROWL")); // 1.9
+				logger.warning("Invalid \"Sound\", Defaulted to \"ENTITY_ENDERDRAGON_GROWL\"");
+			} catch (Exception e2) {
+				try {
+					setDefaultSound(Sound.valueOf("ENDERDRAGON_GROWL")); // 1.8
+					logger.warning("Invalid \"Sound\", Defaulted to \"ENDERDRAGON_GROWL\"");
+				} catch (Exception e3) {
+					logger.severe("Failed to set default sound");
+				}
+			}
+		}
 
 		try {
 			setDefaultColor(BarColor.valueOf(config.getString("Default Options.Boss Bar Color").toUpperCase()));
@@ -181,13 +191,13 @@ public class ConfigHandler {
 		this.announcerStyle = announcerStyle;
 	}
 
-//	public Sound getDefaultSound() {
-//		return defaultSound;
-//	}
-//
-//	public void setDefaultSound(Sound defaultSound) {
-//		this.defaultSound = defaultSound;
-//	}
+	public Sound getDefaultSound() {
+		return defaultSound;
+	}
+
+	public void setDefaultSound(Sound defaultSound) {
+		this.defaultSound = defaultSound;
+	}
 
 	public void addAnnouncerMessage(String message) {
 		this.announcerMessages.add(message);
