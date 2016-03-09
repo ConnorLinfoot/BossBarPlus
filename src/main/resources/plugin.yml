@@ -2,6 +2,7 @@ name: BossBarPlus
 description: Boss Bar broadcaster for the new 1.9 boss bar API.
 main: com.connorlinfoot.bossbarplus.BossBarPlus
 version: ${project.version}
+softdepend: [ViaVersion]
 commands:
   bbp:
     description: Main BossBarPlus command
