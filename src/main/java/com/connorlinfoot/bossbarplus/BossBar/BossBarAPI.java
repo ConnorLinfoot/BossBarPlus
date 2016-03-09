@@ -2,22 +2,23 @@ package com.connorlinfoot.bossbarplus.BossBar;
 
 import com.connorlinfoot.bossbarplus.BossBarPlus;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class BossBarAPI {
 	private static BossBar announcerBossBar = null;
 	private static BossBar joinBossBar = null;
-	private static boolean isViaVersion = false;
+	private static boolean viaVersion = false;
 	private static String bossBarPerm = null;
 	private static double currentTime = 0;
 	private static int taskID = 0;
 	private static boolean perTick = BossBarPlus.getConfigHandler().isSmooth(); // If true it will run 20 times per second!
 
-	public static void setIsViaVersion(boolean isViaVersion) {
-		BossBarAPI.isViaVersion = isViaVersion;
+	public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
+		broadcastBar(message, seconds, barColor, barStyle, permission, BossBarPlus.getConfigHandler().isSoundEnabled(), BossBarPlus.getConfigHandler().getDefaultSound());
 	}
 
-	public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission) {
+	public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission, boolean soundEnabled, Sound sound) {
 		Bukkit.getScheduler().cancelTask(taskID);
 		bossBarPerm = permission;
 		final double perTime;
@@ -27,6 +28,11 @@ public class BossBarAPI {
 		} else {
 			currentTime = seconds;
 			perTime = 1 / seconds;
+		}
+		if (soundEnabled) {
+			for (Player player : Bukkit.getOnlinePlayers()) {
+				player.playSound(player.getLocation(), sound, 1, 1);
+			}
 		}
 		final Runnable runnable = new Runnable() {
 			@Override
@@ -73,7 +79,7 @@ public class BossBarAPI {
 
 	private static BossBar getBossBar(String message, BarColor barColor, BarStyle barStyle, float progress) {
 		BossBar bossBar;
-		if (isViaVersion)
+		if (viaVersion)
 			bossBar = new BossBarVia(message, barColor, barStyle, progress);
 		else
 			bossBar = new BossBar1_9(message, barColor, barStyle, progress);
@@ -90,16 +96,14 @@ public class BossBarAPI {
 				bossBar.setProgress(0.5f);
 			}
 		}, 100L);
-
-
-//        BossBar bossBar = Bukkit.createBossBar(message, barColor, barStyle);
-//        bossBar.show();
-//        bossBar.addPlayer(player);
-//        bossBar.setProgress(progress);
 	}
 
 	public static boolean isViaVersion() {
-		return isViaVersion;
+		return viaVersion;
+	}
+
+	public static void setViaVersion(boolean viaVersion) {
+		BossBarAPI.viaVersion = viaVersion;
 	}
 
 	public static void clearBar() {
