@@ -9,7 +9,6 @@ public class BossBarAPI {
 	private static BossBar announcerBossBar = null;
 	private static BossBar joinBossBar = null;
 	private static boolean viaVersion = false;
-	private static String bossBarPerm = null;
 	private static double currentTime = 0;
 	private static int taskID = 0;
 	private static boolean perTick = BossBarPlus.getConfigHandler().isSmooth(); // If true it will run 20 times per second!
@@ -20,7 +19,6 @@ public class BossBarAPI {
 
 	public static void broadcastBar(final String message, double seconds, final BarColor barColor, final BarStyle barStyle, final String permission, boolean soundEnabled, Sound sound) {
 		Bukkit.getScheduler().cancelTask(taskID);
-		bossBarPerm = permission;
 		final double perTime;
 		if (perTick) {
 			currentTime = seconds * 20;
@@ -31,6 +29,8 @@ public class BossBarAPI {
 		}
 		if (soundEnabled) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
+				if (permission != null && !permission.equals("") && player.hasPermission(permission))
+					continue;
 				player.playSound(player.getLocation(), sound, 1, 1);
 			}
 		}
@@ -59,6 +59,10 @@ public class BossBarAPI {
 	}
 
 	public static void sendBar(String message, BarColor barColor, BarStyle barStyle, float percentage) {
+		sendBar(message, barColor, barStyle, percentage, null);
+	}
+
+	public static void sendBar(String message, BarColor barColor, BarStyle barStyle, float percentage, String permission) {
 		if (announcerBossBar == null) {
 			announcerBossBar = getBossBar(message, barColor, barStyle, percentage);
 		} else {
@@ -69,6 +73,8 @@ public class BossBarAPI {
 		}
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (permission != null && !permission.equals("") && player.hasPermission(permission))
+				continue;
 			announcerBossBar.addPlayer(player);
 		}
 	}
